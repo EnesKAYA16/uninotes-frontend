@@ -1,8 +1,16 @@
 import { MAX_FILE_SIZE, SLOW_REQUEST_MS } from "./constants";
 
-export const API_BASE = (
-  import.meta.env.VITE_API_BASE_URL ?? "https://uninotes-7eql.onrender.com"
-).replace(/\/+$/, "");
+/**
+ * Ortam değişkeni tanımlı ama boş olabilir (Vercel'de değer girilmeden eklenen
+ * değişkenler böyle geliyor); `??` bu durumda varsayılana düşmediği için
+ * boş/boşluklu değerler de yok sayılıyor.
+ */
+const configuredApiBase = import.meta.env.VITE_API_BASE_URL?.trim();
+
+export const API_BASE = (configuredApiBase || "https://uninotes-7eql.onrender.com").replace(
+  /\/+$/,
+  "",
+);
 
 export type DocumentStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
 
